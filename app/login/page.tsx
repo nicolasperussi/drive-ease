@@ -1,14 +1,38 @@
+"use client";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { SyntheticEvent, useState } from "react";
 
 const Login = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const router = useRouter();
+
+  async function handleSubmit(e: SyntheticEvent) {
+    e.preventDefault();
+
+    const signInData = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
+    if (signInData?.error) {
+      console.log(signInData.error);
+    } else {
+      router.push("/");
+    }
+  }
+
   return (
     <main className="flex flex-col gap-12 items-center justify-center h-[80vh]">
       <div className="space-y-2 text-center flex flex-col gap-4">
         <h1 className="text-3xl font-bold text-primary">Login</h1>
         <p>Enter your credentials to access your account.</p>
       </div>
-      <form className="flex flex-col gap-4">
+      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-2">
           <label className="font-medium" htmlFor="email">
             Email
@@ -19,6 +43,7 @@ const Login = () => {
             required
             type="email"
             className="w-96 p-4 rounded-xl border outline-none"
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="space-y-2">
@@ -36,6 +61,7 @@ const Login = () => {
             required
             type="password"
             className="w-96 p-4 rounded-xl border outline-none"
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <button

@@ -1,8 +1,12 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { useSession } from "next-auth/react";
 
 const Header = () => {
+  const { data: session, status } = useSession();
+
   return (
     <div className="border-b border-b-black/10">
       <header className="container px-6 h-14 flex items-center mx-auto">
@@ -29,11 +33,12 @@ const Header = () => {
           >
             Contact
           </Link>
+          {/* TODO: create profile page and redirect user when clicked if logged in */}
           <Link
             className="text-sm text-primary hover:text-accent font-medium hover:underline underline-offset-4 ml-12"
             href="/login"
           >
-            Sign In
+            {session ? "My Account" : "Sign In"}
           </Link>
         </nav>
       </header>
