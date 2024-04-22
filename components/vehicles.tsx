@@ -7,7 +7,7 @@ const Vehicles = () => {
   const BASE_VALUE = 50;
 
   return (
-    <section className="container px-6 pt-6 pb-12 mx-auto">
+    <section className="container px-6 pt-6 pb-12 mx-auto" id="vehicles">
       <div className="space-y-4">
         <div className="inline-block rounded-full bg-secondary px-3 py-1 text-sm">
           Popular Models

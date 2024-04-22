@@ -13,7 +13,7 @@ const Header = () => {
         <nav className="ml-auto hidden md:flex gap-4 sm:gap-6">
           <Link
             className="text-sm hover:text-accent font-medium hover:underline underline-offset-4"
-            href="#"
+            href="/#vehicles"
           >
             Vehicle Fleet
           </Link>
@@ -28,6 +28,12 @@ const Header = () => {
             href="#"
           >
             Contact
+          </Link>
+          <Link
+            className="text-sm text-primary hover:text-accent font-medium hover:underline underline-offset-4 ml-12"
+            href="/login"
+          >
+            Sign In
           </Link>
         </nav>
       </header>

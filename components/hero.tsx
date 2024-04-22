@@ -17,7 +17,7 @@ const Hero = () => {
         </p>
         <Link
           className="flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-gray-50 shadow transition-opacity hover:opacity-90 min-w-64 mx-auto lg:mx-0"
-          href="#"
+          href="#vehicles"
         >
           Book Now
         </Link>
