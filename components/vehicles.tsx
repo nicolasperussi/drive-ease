@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { Card, CardContent } from "./ui/card";
+import { Button } from "./ui/button";
 
 const Vehicles = async () => {
   const BASE_VALUE = 50;
@@ -23,6 +25,31 @@ const Vehicles = async () => {
         </div>
         <div className="grid gap-8 py-12 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
           {vehicles.map((car: any, i: any) => (
+            <Card className="space-y-4 group">
+              <div className="relative aspect-video">
+                <Image
+                  src={`/cars/${car.slug}.png`}
+                  alt=""
+                  fill
+                  className="object-contain p-4 hover:p-2 transition-[padding] border-b"
+                />
+              </div>
+              <CardContent>
+                <h2 className="text-xl font-bold">
+                  {car.manufacturer} {car.model}
+                </h2>
+                <div className="flex items-center justify-between">
+                  <span className="text-gray-500">
+                    R$ {(BASE_VALUE * car.rental_factor).toFixed(2)}/day
+                  </span>
+                  <Button className="opacity-0 transition-opacity group-hover:opacity-100">
+                    Book
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+          {/* {vehicles.map((car: any, i: any) => (
             <div
               key={i}
               className="rounded-xl overflow-hidden flex flex-col gap-2 border group bg-white shadow-md"
@@ -36,23 +63,11 @@ const Vehicles = async () => {
                 />
               </div>
               <div className="p-4 space-y-4">
-                <h2 className="text-xl font-bold">
-                  {car.manufacturer} {car.model}
-                </h2>
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-500 h-8">
-                    R$ {(BASE_VALUE * car.rental_factor).toFixed(2)}/day
-                  </span>
-                  <Link
-                    className="hidden group-hover:inline-flex h-8 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-white shadow transition-colors hover:opacity-90"
-                    href="#"
-                  >
-                    Book
-                  </Link>
-                </div>
+                
+                
               </div>
             </div>
-          ))}
+          ))} */}
         </div>
       </section>
     )

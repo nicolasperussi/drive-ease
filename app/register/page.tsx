@@ -3,6 +3,7 @@ import { signIn } from "next-auth/react";
 import Link from "next/link";
 import React, { SyntheticEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 const Register = () => {
   const [name, setName] = useState<string>("");
@@ -40,6 +41,8 @@ const Register = () => {
       }
     }
   }
+
+  // TODO: change the form and inputs to Form and Inputs components from shadcn/ui
 
   return (
     <main className="flex flex-col gap-12 items-center justify-center h-[80vh]">
@@ -84,12 +87,7 @@ const Register = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button
-          className="flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-white shadow transition-opacity hover:opacity-90 w-full mx-auto"
-          type="submit"
-        >
-          Create Account
-        </button>
+        <Button type="submit">Create Account</Button>
       </form>
       <div className="text-center text-sm text-gray-500 flex gap-2">
         Already have an account?

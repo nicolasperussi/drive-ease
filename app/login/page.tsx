@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -25,6 +26,7 @@ const Login = () => {
       router.push("/");
     }
   }
+  // TODO: change the form and inputs to Form and Inputs components from shadcn/ui
 
   return (
     <main className="flex flex-col gap-12 items-center justify-center h-[80vh]">
@@ -64,12 +66,7 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button
-          className="flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-white shadow transition-opacity hover:opacity-90 w-full mx-auto"
-          type="submit"
-        >
-          Sign in
-        </button>
+        <Button type="submit">Sign in</Button>
       </form>
       <div className="text-center text-sm text-gray-500 flex gap-2">
         Don't have an account?
