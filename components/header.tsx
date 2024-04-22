@@ -15,7 +15,7 @@ const Header = () => {
             className="text-sm hover:text-accent font-medium hover:underline underline-offset-4"
             href="#"
           >
-            Pricing
+            Vehicle Fleet
           </Link>
           <Link
             className="text-sm hover:text-accent font-medium hover:underline underline-offset-4"
