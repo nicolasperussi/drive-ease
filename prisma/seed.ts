@@ -1,4 +1,7 @@
-export default [
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
+
+const cars = [
   {
     kmpl: 13.5,
     highway_kmpl: 16.2,
@@ -168,3 +171,18 @@ export default [
     slug: "bmw-serie-3-2023",
   },
 ];
+
+async function main() {
+  await prisma.car.createMany({ data: cars });
+}
+main()
+  .then(async () => {
+    console.log("Database seeded.");
+
+    await prisma.$disconnect();
+  })
+  .catch(async (e) => {
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
+  });

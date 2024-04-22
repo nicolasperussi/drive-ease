@@ -22,12 +22,12 @@ const Hero = () => {
           Book Now
         </Link>
       </div>
-      <div className="-scale-x-100 flex-1">
+      <div className="flex-1">
         <img
           alt="Luxury Car"
           className="mx-auto aspect-video overflow-hidden rounded-xl object-contain w-full"
           // fill
-          src="/creta.png"
+          src="/cars/audi-a3-2022.png"
         />
       </div>
     </section>
