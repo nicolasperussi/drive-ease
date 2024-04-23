@@ -7,6 +7,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
@@ -28,37 +29,39 @@ const Header = () => {
             className="text-sm text-primary font-medium hover:underline underline-offset-4"
             href="/#vehicles"
           >
-            Vehicle Fleet
+            Veículos
           </Link>
           <Link
             className="text-sm text-primary font-medium hover:underline underline-offset-4"
             href="#"
           >
-            About
+            Sobre
           </Link>
           <Link
             className="text-sm text-primary font-medium hover:underline underline-offset-4"
             href="#"
           >
-            Contact
+            Fale Conosco
           </Link>
           {/* TODO: create profile page and redirect user when clicked if logged in */}
           {session ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <div className="text-sm text-primary font-medium hover:underline underline-offset-4 ml-12 flex gap-2 items-center cursor-pointer">
-                  My Account
+                  Minha Conta
                   <ChevronDown className="size-5" />
                 </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
+                <DropdownMenuLabel>{session.user?.name}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
                   <Button
                     className="justify-start w-full"
                     variant="ghost"
                     asChild
                   >
-                    <Link href="/account#settings">Settings</Link>
+                    <Link href="/account#settings">Ajustes</Link>
                   </Button>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
@@ -67,7 +70,7 @@ const Header = () => {
                     variant="ghost"
                     asChild
                   >
-                    <Link href="/account#history">Rent History</Link>
+                    <Link href="/account#history">Histórico</Link>
                   </Button>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
@@ -77,7 +80,7 @@ const Header = () => {
                     variant="ghost"
                     onClick={() => signOut()}
                   >
-                    Sign Out
+                    Sair
                     <LogOut className="size-4" />
                   </Button>
                 </DropdownMenuItem>
@@ -88,7 +91,7 @@ const Header = () => {
               className="text-sm text-primary font-medium hover:underline ml-12 underline-offset-4"
               href="/login"
             >
-              Sign In
+              Entrar
             </Link>
           )}
         </nav>

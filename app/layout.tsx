@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header";
 import SessionProvider from "@/providers/sessionProvider";
+import RentProvider from "@/context/rent-context";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -25,8 +26,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`bg-background ${poppins.className}`}>
         <SessionProvider>
-          <Header />
-          {children}
+          <RentProvider>
+            <Header />
+            {children}
+          </RentProvider>
         </SessionProvider>
       </body>
     </html>

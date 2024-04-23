@@ -1,35 +1,36 @@
 import Link from "next/link";
 import React from "react";
 import { Button } from "./ui/button";
+import Image from "next/image";
 
 const Hero = () => {
   return (
     <section
       className="container px-6 py-12 lg:py-20 2xl:py-24 grid grid-cols-1
-    lg:grid-cols-5 gap-16 items-center justify-between mx-auto"
+    lg:grid-cols-5 gap-y-16 lg:gap-16 items-center justify-between mx-auto relative"
     >
-      <div className="flex flex-col gap-4 lg:gap-8 justify-center text-center sm lg:text-left col-span-2">
+      <div className="flex flex-col gap-4 lg:gap-8 justify-center text-center lg:text-left col-span-2">
         <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-          Elevate Your Driving Experience
+          Eleve Sua Experiência de Condução
         </h1>
         <p className="max-w-[600px] lg:max-w-full mx-auto md:text-xl lg:mx-0">
-          Discover the ultimate in luxury and convenience with our premium car
-          rental service.
+          Descubra o máximo em luxo e conveniência com o nosso serviço premium
+          de aluguel de carros.
         </p>
         <Button asChild>
           <Link
             className="flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-gray-50 shadow transition-opacity hover:opacity-90 min-w-64 mx-auto lg:mx-0"
             href="#vehicles"
           >
-            Book Now
+            Reservar Agora
           </Link>
         </Button>
       </div>
-      <div className="flex-1 col-span-3">
-        <img
+      <div className="relative aspect-video flex-1 col-span-3">
+        <Image
           alt="Luxury Car"
-          className="mx-auto aspect-video overflow-hidden rounded-xl object-contain w-full"
-          // fill
+          className="object-contain"
+          fill
           src="/cars/audi-a3-2022.png"
         />
       </div>
