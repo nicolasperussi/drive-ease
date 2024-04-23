@@ -3,9 +3,11 @@ import Link from "next/link";
 import React from "react";
 import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
+import { fetchVehicles } from "@/lib/utils";
+
+export const BASE_VALUE = 75;
 
 const Vehicles = async () => {
-  const BASE_VALUE = 50;
   const { vehicles } = await fetchVehicles();
 
   return (
@@ -24,7 +26,7 @@ const Vehicles = async () => {
           </p>
         </div>
         <div className="grid gap-8 py-12 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-          {vehicles.map((car: any, i: any) => (
+          {vehicles.map((car) => (
             <Card className="space-y-4 group">
               <div className="relative aspect-video">
                 <Image
@@ -42,32 +44,18 @@ const Vehicles = async () => {
                   <span className="text-gray-500">
                     R$ {(BASE_VALUE * car.rental_factor).toFixed(2)}/day
                   </span>
-                  <Button className="opacity-0 transition-opacity group-hover:opacity-100">
-                    Book
+                  <Button asChild>
+                    <Link
+                      href="/rent"
+                      className="opacity-0 transition-opacity group-hover:opacity-100"
+                    >
+                      Book
+                    </Link>
                   </Button>
                 </div>
               </CardContent>
             </Card>
           ))}
-          {/* {vehicles.map((car: any, i: any) => (
-            <div
-              key={i}
-              className="rounded-xl overflow-hidden flex flex-col gap-2 border group bg-white shadow-md"
-            >
-              <div className="relative aspect-video">
-                <Image
-                  src={`/cars/${car.slug}.png`}
-                  alt=""
-                  fill
-                  className="object-contain p-4 hover:p-2 transition-[padding] border-b"
-                />
-              </div>
-              <div className="p-4 space-y-4">
-                
-                
-              </div>
-            </div>
-          ))} */}
         </div>
       </section>
     )
@@ -75,16 +63,3 @@ const Vehicles = async () => {
 };
 
 export default Vehicles;
-
-async function fetchVehicles() {
-  const res = await fetch(`http://localhost:3000/api/vehicles`, {
-    method: "GET",
-  });
-
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error("Failed to fetch data");
-  }
-
-  return await res.json();
-}

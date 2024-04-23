@@ -1,5 +1,5 @@
 import Hero from "@/components/hero";
-import Vehicles from "@/components/vehicles";
+import Vehicles from "@/components/landing-page-vehicles";
 
 export default function Home() {
   return (
