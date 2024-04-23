@@ -29,7 +29,7 @@ const RentDatePicker = ({ handleIncrementStep }: RentDatePickerProps) => {
         Selecione a data para seguir com a reserva
       </h1>
       <div className="flex p-8 flex-col xl:flex-row gap-8 border rounded-lg">
-        <div className="flex justify-between gap-4 xl:gap-8 flex-col md:flex-row">
+        <div className="flex justify-between gap-4 xl:gap-8 flex-col md:flex-row flex-1">
           <div className="flex flex-col gap-4 w-full md:w-[48%]">
             <Label>Data de início</Label>
             <div className="flex flex-wrap lg:flex-nowrap gap-2 sm:border sm:rounded-lg">

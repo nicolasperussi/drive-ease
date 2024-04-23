@@ -21,6 +21,11 @@ const RentVehicles = ({ handleIncrementStep }: RentVehiclesProps) => {
     });
   }, []);
 
+  function selectCar(car: ICar) {
+    handleSetCar(car);
+    handleIncrementStep();
+  }
+
   return (
     <div className="flex flex-col gap-8 flex-1 xl:mr-8">
       <h1 className="text-3xl font-bold text-primary">
@@ -31,10 +36,7 @@ const RentVehicles = ({ handleIncrementStep }: RentVehiclesProps) => {
           <Card
             className="space-y-4 group hover:border-primary cursor-pointer"
             key={car.id}
-            onClick={() => {
-              handleSetCar(car);
-              handleIncrementStep();
-            }}
+            onClick={() => selectCar(car)}
           >
             <div className="relative aspect-video">
               <Image

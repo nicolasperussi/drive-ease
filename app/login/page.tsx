@@ -23,7 +23,12 @@ const Login = () => {
     if (signInData?.error) {
       console.log(signInData.error);
     } else {
-      router.push("/");
+      const searchParams = new URLSearchParams(window.location.search);
+      const referer = searchParams.get("referer");
+
+      if (referer) return router.push(`/${referer}`);
+
+      return router.push("/");
     }
   }
   // TODO: change the form and inputs to Form and Inputs components from shadcn/ui

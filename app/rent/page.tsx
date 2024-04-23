@@ -1,17 +1,13 @@
 "use client";
-import DatePicker from "@/components/date-picker";
-import { BASE_VALUE } from "@/components/landing-page-vehicles";
 import RentDatePicker from "@/components/rent/rent-date-picker";
 import RentHeader from "@/components/rent/rent-header";
 import RentVehicles from "@/components/rent/rent-vehicles";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { useRent } from "@/context/rent-context";
-import { fetchVehicles } from "@/lib/utils";
-import { ICar } from "@/types/car";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const steps: {
   title: string;
@@ -22,27 +18,38 @@ const steps: {
   { title: "Identificação", step: 3 },
 ];
 
-const Rent = () => {
-  const [currentStep, setCurrentStep] = useState(1);
+const Rent = ({ searchParams }: { searchParams: { step: string } }) => {
+  const [currentStep, setCurrentStep] = useState(
+    () => Number(searchParams.step) || 1
+  );
 
+  const { car, startDate, finishDate } = useRent();
   const router = useRouter();
+  const { data: session } = useSession();
+
   function handleChangeStep(step: number) {
+    if (step === 2 && (!startDate || !finishDate)) return;
+    if (step === 3 && (!car || !startDate || !finishDate)) return;
+    if (step === 3 && !session) {
+      return router.replace("/login?referer=rent?step=3");
+    }
     setCurrentStep(step);
+
+    const newPathName = updateSearchParams(step);
+    router.push(newPathName, { scroll: false });
+  }
+
+  function updateSearchParams(step: number) {
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.set("step", step.toString());
-    const newPathname = `${
-      window.location.pathname
-    }?${searchParams.toString()}`;
-
-    router.push(newPathname, { scroll: false });
+    return `${window.location.pathname}?${searchParams.toString()}`;
   }
+
   function handleIncrementStep() {
     if (currentStep === 3) return;
 
     handleChangeStep(currentStep + 1);
   }
-
-  const { car, handleSetCar } = useRent();
 
   return (
     <section className="relative">
@@ -60,7 +67,7 @@ const Rent = () => {
           <RentVehicles handleIncrementStep={handleIncrementStep} />
         )}
 
-        {((currentStep === 1 && car) || currentStep === 2) && (
+        {((currentStep === 1 && car) || currentStep >= 2) && (
           <div className="flex flex-col gap-8 border w-full xl:w-96 h-fit p-8 rounded-lg">
             {car && (
               <div className="flex items-center justify-center xl:items-start xl:flex-col gap-4 w-full">
