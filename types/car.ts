@@ -8,8 +8,9 @@ export interface ICar {
   manufacturer: string;
   model: string;
   year: number;
-  slug?: string;
+  slug: string;
   rental_factor: number;
+  rental_price: number;
   available: boolean;
   createdAt: Date;
   updatedAt: Date;

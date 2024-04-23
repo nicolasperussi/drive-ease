@@ -1,8 +1,4 @@
-import Image from "next/image";
-import Link from "next/link";
 import React from "react";
-import { Card, CardContent } from "./ui/card";
-import { Button } from "./ui/button";
 import { fetchVehicles } from "@/lib/utils";
 import VehicleCard from "./vehicle-card";
 

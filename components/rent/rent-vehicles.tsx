@@ -16,7 +16,9 @@ const RentVehicles = ({ handleIncrementStep }: RentVehiclesProps) => {
   const { handleSetCar } = useRent();
 
   useEffect(() => {
-    fetchVehicles().then((res) => setVehicles(res.vehicles));
+    fetchVehicles().then((res) => {
+      setVehicles(res.vehicles);
+    });
   }, []);
 
   return (
@@ -47,7 +49,7 @@ const RentVehicles = ({ handleIncrementStep }: RentVehiclesProps) => {
                 {car.manufacturer} {car.model}
               </h2>
               <span className="text-gray-500">
-                R$ {Math.ceil(BASE_VALUE * car.rental_factor).toFixed(2)}/dia
+                R$ {car.rental_price.toFixed(2)}/dia
               </span>
             </CardContent>
           </Card>

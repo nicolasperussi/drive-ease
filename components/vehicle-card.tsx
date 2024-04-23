@@ -4,7 +4,6 @@ import Link from "next/link";
 import React from "react";
 import { Card, CardContent } from "./ui/card";
 import Image from "next/image";
-import { BASE_VALUE } from "./landing-page-vehicles";
 import { Button } from "./ui/button";
 import { useRent } from "@/context/rent-context";
 import { useRouter } from "next/navigation";
@@ -39,7 +38,7 @@ const VehicleCard = ({ car }: VehicleCardProps) => {
         </h2>
         <div className="flex items-center justify-between">
           <span className="text-gray-500">
-            R$ {Math.ceil(BASE_VALUE * car.rental_factor).toFixed(2)}
+            R$ {car.rental_price.toFixed(2)}
             /dia
           </span>
           <Button asChild>

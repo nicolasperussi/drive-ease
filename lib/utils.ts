@@ -16,5 +16,9 @@ export async function fetchVehicles(): Promise<{ vehicles: Array<ICar> }> {
     throw new Error("Failed to fetch data");
   }
 
-  return await res.json();
+  const result = await res.json();
+
+  console.log(result.vehicles);
+
+  return result;
 }
