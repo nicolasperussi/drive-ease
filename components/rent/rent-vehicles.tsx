@@ -21,6 +21,7 @@ const RentVehicles = ({}: RentVehiclesProps) => {
   }, []);
 
   function selectCar(car: ICar) {
+    if (!car.available) return;
     handleSetCar(car);
   }
 
@@ -33,8 +34,10 @@ const RentVehicles = ({}: RentVehiclesProps) => {
         {vehicles.map((car) => (
           <Card
             className={twMerge(
-              "space-y-4 group hover:border-primary/50 cursor-pointer",
-              car === selectedCar && "!border-primary"
+              "space-y-4 group",
+              car === selectedCar && "!border-primary",
+              car.available && "hover:border-primary/50 cursor-pointer",
+              !car.available && "opacity-25"
             )}
             key={car.id}
             onClick={() => selectCar(car)}
@@ -45,7 +48,8 @@ const RentVehicles = ({}: RentVehiclesProps) => {
                 alt=""
                 fill
                 className={twMerge(
-                  "object-contain p-4 group-hover:p-2 transition-[padding] border-b",
+                  "object-contain p-4 transition-[padding] border-b",
+                  car.available && "group-hover:p-2",
                   car === selectedCar && "!p-2"
                 )}
               />

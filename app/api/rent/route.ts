@@ -8,7 +8,7 @@ export async function POST(req: Request) {
     const { car, userEmail, startDate, finishDate } = body;
 
     const totalPrice =
-      car.rental_price * dayjs(finishDate).diff(startDate, "day");
+      car.rental_price * (dayjs(finishDate).diff(startDate, "day") + 1);
 
     const newRental = await prisma.rental.create({
       data: {

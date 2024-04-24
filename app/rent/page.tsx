@@ -116,6 +116,14 @@ const Rent = ({ searchParams }: { searchParams: { step: string } }) => {
                 <span className="font-bold">Data e hora de término: </span>
                 {dayjs(finishDate).format("LLL")}
               </div>
+              <div className="text-xl flex flex-col gap-1">
+                <span className="font-bold">Valor total: </span>
+                R${" "}
+                {(
+                  car?.rental_price! *
+                  (dayjs(finishDate).diff(startDate, "day") + 1)
+                ).toFixed(2)}
+              </div>
               <Button
                 onClick={handleCreateRent}
                 className="hidden lg:inline-flex text-lg"
