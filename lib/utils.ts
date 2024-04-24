@@ -8,7 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export async function fetchVehicles(): Promise<{ vehicles: Array<ICar> }> {
-  const res = await fetch(`http://localhost:3000/api/vehicles`, {
+  const res = await fetch(`${process.env.VERCEL_URL}/api/vehicles`, {
     method: "GET",
   });
 
@@ -25,7 +25,7 @@ export async function fetchVehicles(): Promise<{ vehicles: Array<ICar> }> {
 export async function fetchRentsByUser(
   email: string
 ): Promise<{ rentals: Array<IRental> }> {
-  const res = await fetch(`http://localhost:3000/api/rent/${email}`, {
+  const res = await fetch(`${process.env.VERCEL_URL}/api/rent/${email}`, {
     method: "GET",
   });
 
