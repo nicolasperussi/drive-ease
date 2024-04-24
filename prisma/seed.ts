@@ -173,6 +173,8 @@ const cars = [
 ];
 
 async function main() {
+  await prisma.rental.deleteMany();
+  await prisma.car.deleteMany();
   await prisma.car.createMany({
     data: cars.map((car) => ({ ...car, rental_price: 75 * car.rental_factor })),
   });
