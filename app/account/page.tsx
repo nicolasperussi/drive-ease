@@ -23,11 +23,11 @@ const Account = () => {
 
   return (
     <div className="container mx-auto px-6 py-12 lg:py-20 2xl:py-24 space-y-8">
-      <div className="space-y-4">
+      <div className="space-y-4" id="settings">
         <h1 className="text-xl font-bold">Informações</h1>
         <Information user={session?.user!} />
       </div>
-      <div className="space-y-4">
+      <div className="space-y-4" id="history">
         <h1 className="text-xl font-bold">Reservas</h1>
         <UserRentals email={session?.user?.email!} />
       </div>
