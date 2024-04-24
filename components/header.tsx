@@ -43,7 +43,6 @@ const Header = () => {
           >
             Fale Conosco
           </Link>
-          {/* TODO: create profile page and redirect user when clicked if logged in */}
           {session ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

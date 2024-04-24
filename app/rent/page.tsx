@@ -1,4 +1,5 @@
 "use client";
+import RentCarPreviewer from "@/components/rent/rent-car-previewer";
 import RentDatePicker from "@/components/rent/rent-date-picker";
 import RentHeader from "@/components/rent/rent-header";
 import RentVehicles from "@/components/rent/rent-vehicles";
@@ -8,6 +9,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { dayjs } from "@/lib/dayjs";
 
 const steps: {
   title: string;
@@ -23,7 +25,7 @@ const Rent = ({ searchParams }: { searchParams: { step: string } }) => {
     () => Number(searchParams.step) || 1
   );
 
-  const { car, startDate, finishDate } = useRent();
+  const { car, startDate, finishDate, clearRent } = useRent();
   const router = useRouter();
   const { data: session } = useSession();
 
@@ -51,6 +53,26 @@ const Rent = ({ searchParams }: { searchParams: { step: string } }) => {
     handleChangeStep(currentStep + 1);
   }
 
+  async function handleCreateRent() {
+    const response = await fetch("/api/rent", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application-json",
+      },
+      body: JSON.stringify({
+        car,
+        userEmail: session?.user?.email,
+        startDate,
+        finishDate,
+      }),
+    });
+
+    if (response.ok) {
+      router.push("/account");
+      clearRent();
+    }
+  }
+
   return (
     <section className="relative">
       <RentHeader
@@ -63,36 +85,70 @@ const Rent = ({ searchParams }: { searchParams: { step: string } }) => {
         {currentStep === 1 && (
           <RentDatePicker handleIncrementStep={handleIncrementStep} />
         )}
-        {currentStep === 2 && (
-          <RentVehicles handleIncrementStep={handleIncrementStep} />
+        {currentStep === 2 && <RentVehicles />}
+
+        {((currentStep === 1 && car) || currentStep === 2) && (
+          <div className="flex flex-col gap-8 border w-full xl:w-96 h-fit p-8 rounded-lg">
+            {car && <RentCarPreviewer />}
+            {car && currentStep === 2 && (
+              <Button onClick={handleIncrementStep}>
+                Continuar com este carro
+              </Button>
+            )}
+          </div>
         )}
 
-        {((currentStep === 1 && car) || currentStep >= 2) && (
-          <div className="flex flex-col gap-8 border w-full xl:w-96 h-fit p-8 rounded-lg">
-            {car && (
-              <div className="flex items-center justify-center xl:items-start xl:flex-col gap-4 w-full">
-                <div className="space-y-1">
-                  <h1 className="text-xl font-bold">
-                    <span className="font-normal">{car.manufacturer} </span>
-                    {car.model}
-                  </h1>
-                  <h3 className="text-foreground/50">{car.year}</h3>
-                </div>
-                <div className="relative aspect-video w-48 xl:w-full">
-                  <Image
-                    src={`/cars/${car.slug}.png`}
-                    alt={car.model}
-                    className="object-contain"
-                    fill
-                  />
-                </div>
+        {currentStep === 3 && (
+          <div className="flex flex-col w-full md:flex-row gap-8">
+            <div className="flex flex-col flex-1 border rounded-lg p-8 gap-8">
+              <h1 className="text-3xl font-bold text-primary">
+                Resumo da reserva
+              </h1>
+              <div className="text-xl flex flex-col gap-1">
+                <span className="font-bold">Nome do locatário: </span>
+                {session?.user?.name}
               </div>
-            )}
-
-            {/* TODO: create api route to create rental and call on this button */}
-            {car && currentStep === 2 && (
-              <Button>Continuar com este carro</Button>
-            )}
+              <div className="text-xl flex flex-col gap-1">
+                <span className="font-bold">Data e hora de início: </span>
+                {dayjs(startDate).format("LLL")}
+              </div>
+              <div className="text-xl flex flex-col gap-1">
+                <span className="font-bold">Data e hora de término: </span>
+                {dayjs(finishDate).format("LLL")}
+              </div>
+              <Button
+                onClick={handleCreateRent}
+                className="hidden lg:inline-flex text-lg"
+              >
+                Reservar
+              </Button>
+            </div>
+            <div className="flex flex-1 sm:flex-col border p-8 rounded-lg items-center sm:items-start">
+              <div className="space-y-1 flex-1 sm:flex-none">
+                <h1 className="text-xl font-bold ">
+                  <span className="font-normal">{car?.manufacturer} </span>
+                  {car?.model}
+                </h1>
+                <h3 className="text-foreground/50">{car?.year}</h3>
+              </div>
+              <div className="relative aspect-video w-full">
+                <Image
+                  src={`/cars/${car?.slug}.png`}
+                  alt={`${car?.model}`}
+                  className="object-contain"
+                  fill
+                />
+              </div>
+              <Button
+                onClick={handleCreateRent}
+                className="hidden md:inline-flex lg:hidden w-full mt-auto text-lg"
+              >
+                Reservar
+              </Button>
+            </div>
+            <Button onClick={handleCreateRent} className="md:hidden text-lg">
+              Reservar
+            </Button>
           </div>
         )}
       </div>

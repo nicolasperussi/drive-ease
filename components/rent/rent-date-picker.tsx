@@ -36,7 +36,7 @@ const RentDatePicker = ({ handleIncrementStep }: RentDatePickerProps) => {
               <DatePicker
                 date={startDate}
                 onSelect={handleSetStartDate}
-                className="sm:border-l-0 sm:border-y-0 border-r sm:rounded-r-none flex-1 w-full"
+                className="sm:border-l-0 sm:border-y-0 border-r sm:rounded-r-none flex-1"
               />
               <Input
                 onChange={(e) => handleSetStartTime(e.target.value)}
@@ -53,7 +53,7 @@ const RentDatePicker = ({ handleIncrementStep }: RentDatePickerProps) => {
                 date={finishDate}
                 minDate={dayjs(startDate).add(1, "day").toDate()}
                 onSelect={handleSetFinishDate}
-                className="sm:border-l-0 sm:border-y-0 border-r sm:rounded-r-none flex-1 w-full"
+                className="sm:border-l-0 sm:border-y-0 border-r sm:rounded-r-none flex-1"
               />
               <Input
                 onChange={(e) => handleSetFinishTime(e.target.value)}

@@ -14,6 +14,7 @@ interface RentContextType {
   handleSetStartTime(time: string): void;
   handleSetFinishDate(date: Date | undefined): void;
   handleSetFinishTime(time: string): void;
+  clearRent(): void;
 }
 
 export const RentContext = createContext<RentContextType>({
@@ -27,6 +28,7 @@ export const RentContext = createContext<RentContextType>({
   handleSetStartTime: (): void => {},
   handleSetFinishDate: (): void => {},
   handleSetFinishTime: (): void => {},
+  clearRent: (): void => {},
 });
 
 interface RentProviderProps {
@@ -79,6 +81,14 @@ export default function RentProvider({ children }: RentProviderProps) {
     setCar(car);
   }
 
+  function clearRent() {
+    setCar(null);
+    setStartDate(undefined);
+    setStartTime(undefined);
+    setFinishDate(undefined);
+    setFinishTime(undefined);
+  }
+
   return (
     <RentContext.Provider
       value={{
@@ -92,6 +102,7 @@ export default function RentProvider({ children }: RentProviderProps) {
         finishTime,
         handleSetFinishDate,
         handleSetFinishTime,
+        clearRent,
       }}
     >
       {children}

@@ -6,14 +6,13 @@ import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "../ui/card";
 import { BASE_VALUE } from "../landing-page-vehicles";
 import { useRent } from "@/context/rent-context";
+import { twMerge } from "tailwind-merge";
 
-interface RentVehiclesProps {
-  handleIncrementStep(): void;
-}
+interface RentVehiclesProps {}
 
-const RentVehicles = ({ handleIncrementStep }: RentVehiclesProps) => {
+const RentVehicles = ({}: RentVehiclesProps) => {
   const [vehicles, setVehicles] = useState<Array<ICar>>([]);
-  const { handleSetCar } = useRent();
+  const { car: selectedCar, handleSetCar } = useRent();
 
   useEffect(() => {
     fetchVehicles().then((res) => {
@@ -23,7 +22,6 @@ const RentVehicles = ({ handleIncrementStep }: RentVehiclesProps) => {
 
   function selectCar(car: ICar) {
     handleSetCar(car);
-    handleIncrementStep();
   }
 
   return (
@@ -34,7 +32,10 @@ const RentVehicles = ({ handleIncrementStep }: RentVehiclesProps) => {
       <div className="grid gap-8 grid-cols-2 xl:grid-cols-3">
         {vehicles.map((car) => (
           <Card
-            className="space-y-4 group hover:border-primary cursor-pointer"
+            className={twMerge(
+              "space-y-4 group hover:border-primary/50 cursor-pointer",
+              car === selectedCar && "!border-primary"
+            )}
             key={car.id}
             onClick={() => selectCar(car)}
           >
@@ -43,7 +44,10 @@ const RentVehicles = ({ handleIncrementStep }: RentVehiclesProps) => {
                 src={`/cars/${car.slug}.png`}
                 alt=""
                 fill
-                className="object-contain p-4 group-hover:p-2 transition-[padding] border-b"
+                className={twMerge(
+                  "object-contain p-4 group-hover:p-2 transition-[padding] border-b",
+                  car === selectedCar && "!p-2"
+                )}
               />
             </div>
             <CardContent className="flex flex-col gap-2">
