@@ -7,8 +7,13 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+const BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+    : process.env.NEXTAUTH_URL;
+
 export async function fetchVehicles(): Promise<{ vehicles: Array<ICar> }> {
-  const res = await fetch(`${process.env.VERCEL_URL}/api/vehicles`, {
+  const res = await fetch(`${BASE_URL}/api/vehicles`, {
     method: "GET",
   });
 
@@ -25,7 +30,7 @@ export async function fetchVehicles(): Promise<{ vehicles: Array<ICar> }> {
 export async function fetchRentsByUser(
   email: string
 ): Promise<{ rentals: Array<IRental> }> {
-  const res = await fetch(`${process.env.VERCEL_URL}/api/rent/${email}`, {
+  const res = await fetch(`${BASE_URL}/api/rent/${email}`, {
     method: "GET",
   });
 

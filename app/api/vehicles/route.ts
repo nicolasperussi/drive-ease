@@ -3,7 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   if (req.method === "GET") {
-    const vehicles = await prisma.car.findMany();
+    const vehicles = await prisma.car.findMany({
+      orderBy: [{ rental_price: "asc" }],
+    });
 
     const vehiclesWithPrice = vehicles.map((vehicle) => {
       return {
