@@ -173,7 +173,9 @@ const cars = [
 ];
 
 async function main() {
-  await prisma.car.createMany({ data: cars });
+  await prisma.car.createMany({
+    data: cars.map((car) => ({ ...car, rental_price: 75 * car.rental_factor })),
+  });
 }
 main()
   .then(async () => {

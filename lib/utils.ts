@@ -1,4 +1,5 @@
 import { ICar } from "@/types/car";
+import { IRental } from "@/types/rental";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -18,7 +19,19 @@ export async function fetchVehicles(): Promise<{ vehicles: Array<ICar> }> {
 
   const result = await res.json();
 
-  console.log(result.vehicles);
+  return result;
+}
+
+export async function fetchRentsByUser(
+  email: string
+): Promise<{ rentals: Array<IRental> }> {
+  const res = await fetch(`http://localhost:3000/api/rent/${email}`, {
+    method: "GET",
+  });
+
+  if (!res.ok) throw new Error("Failed to fetch data");
+
+  const result: { rentals: Array<IRental> } = await res.json();
 
   return result;
 }

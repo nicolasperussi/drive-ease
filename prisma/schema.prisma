@@ -37,6 +37,7 @@ model Car {
   year          Int
   slug          String
   rental_factor Float
+  rental_price  Float
   available     Boolean  @default(true)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
