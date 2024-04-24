@@ -15,51 +15,18 @@ datasource db {
 
 model User {
   id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
+  name          String
+  email         String    @unique
   password      String?
   emailVerified DateTime?
   image         String?
-  accounts      Account[]
-  sessions      Session[]
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-  Rental        Rental[]
-}
-
-model Account {
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String?
-  access_token      String?
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?
-  session_state     String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@id([provider, providerAccountId])
-}
-
-model Session {
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  rentals       Rental[]
 }
 
 model Car {
-  id            String   @id @default(uuid())
+  id            String   @id @default(cuid())
   kmpl          Float
   highway_kmpl  Float
   category      String
@@ -68,22 +35,23 @@ model Car {
   manufacturer  String
   model         String
   year          Int
-  slug          String?
+  slug          String
   rental_factor Float
   available     Boolean  @default(true)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-  Rental        Rental[]
+  rentals       Rental[]
 }
 
 model Rental {
-  id         Int      @id @default(autoincrement())
+  id         String   @id @default(cuid())
   user       User     @relation(fields: [userId], references: [id])
   userId     String
   car        Car      @relation(fields: [carId], references: [id])
   carId      String
   startDate  DateTime
   endDate    DateTime
+  ongoing    Boolean
   totalPrice Float
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt

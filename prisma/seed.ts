@@ -5,7 +5,7 @@ const cars = [
   {
     kmpl: 13.5,
     highway_kmpl: 16.2,
-    category: "compact",
+    category: "subcompact",
     transmission: "manual",
     fuel_type: "flex",
     manufacturer: "Fiat",
@@ -18,7 +18,7 @@ const cars = [
     kmpl: 12.9,
     highway_kmpl: 15.7,
     category: "compact",
-    transmission: "automatic",
+    transmission: "manual",
     fuel_type: "flex",
     manufacturer: "Chevrolet",
     model: "Onix",
@@ -29,7 +29,7 @@ const cars = [
   {
     kmpl: 14.2,
     highway_kmpl: 16.9,
-    category: "compact",
+    category: "subcompact",
     transmission: "manual",
     fuel_type: "flex",
     manufacturer: "Renault",
@@ -65,7 +65,7 @@ const cars = [
   {
     kmpl: 12.6,
     highway_kmpl: 15.2,
-    category: "compact",
+    category: "sedan",
     transmission: "automatic",
     fuel_type: "flex",
     manufacturer: "Nissan",
@@ -166,9 +166,9 @@ const cars = [
     fuel_type: "gas",
     manufacturer: "BMW",
     model: "Série 3",
-    year: 2023,
+    year: 2021,
     rental_factor: 3.66,
-    slug: "bmw-serie-3-2023",
+    slug: "bmw-serie-3-2021",
   },
 ];
 

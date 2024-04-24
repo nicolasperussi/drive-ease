@@ -17,6 +17,7 @@ export async function POST(req: Request) {
         startDate,
         endDate: finishDate,
         totalPrice,
+        ongoing: false,
       },
       include: {
         user: { select: { id: true, name: true, email: true } },
@@ -30,6 +31,21 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ newRental });
+  } catch (error: any) {
+    return NextResponse.json({ message: error.message }, { status: 500 });
+  }
+}
+
+export async function GET(req: Request) {
+  try {
+    const rentals = await prisma.rental.findMany({
+      include: {
+        car: true,
+        user: { select: { id: true, name: true, email: true } },
+      },
+    });
+
+    return NextResponse.json({ rentals }, { status: 200 });
   } catch (error: any) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
