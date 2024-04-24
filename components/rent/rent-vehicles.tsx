@@ -4,7 +4,6 @@ import { ICar } from "@/types/car";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "../ui/card";
-import { BASE_VALUE } from "../landing-page-vehicles";
 import { useRent } from "@/context/rent-context";
 import { twMerge } from "tailwind-merge";
 

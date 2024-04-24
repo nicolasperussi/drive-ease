@@ -14,5 +14,5 @@ export interface ICar {
   available: boolean;
   createdAt: Date;
   updatedAt: Date;
-  rentals: any[];
+  rentals?: any[];
 }

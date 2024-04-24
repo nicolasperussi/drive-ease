@@ -13,14 +13,6 @@ const Account = () => {
 
   if (status === "loading") return <div>Loading...</div>;
 
-  // const [rentals, setRentals] = useState<Array<IRental>>([]);
-
-  // useEffect(() => {
-  //   fetchRentsByUser(session?.user?.email!).then((res) => {
-  //     setRentals(res.rentals);
-  //   });
-  // }, []);
-
   return (
     <div className="container mx-auto px-6 py-12 lg:py-20 2xl:py-24 space-y-8">
       <div className="space-y-4" id="settings">

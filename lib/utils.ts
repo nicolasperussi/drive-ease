@@ -13,13 +13,15 @@ const BASE_URL =
     : process.env.NEXTAUTH_URL;
 
 export async function fetchVehicles(): Promise<{ vehicles: Array<ICar> }> {
-  const res = await fetch(`${BASE_URL}/api/vehicles`, {
+  console.log(BASE_URL);
+
+  const res = await fetch("/api/vehicles", {
     method: "GET",
   });
 
   if (!res.ok) {
     // This will activate the closest `error.js` Error Boundary
-    throw new Error("Failed to fetch data");
+    throw new Error("Failed to fetch vehicles");
   }
 
   const result = await res.json();
@@ -30,11 +32,11 @@ export async function fetchVehicles(): Promise<{ vehicles: Array<ICar> }> {
 export async function fetchRentsByUser(
   email: string
 ): Promise<{ rentals: Array<IRental> }> {
-  const res = await fetch(`${BASE_URL}/api/rent/${email}`, {
+  const res = await fetch(`/api/rent/${email}`, {
     method: "GET",
   });
 
-  if (!res.ok) throw new Error("Failed to fetch data");
+  if (!res.ok) throw new Error("Failed to fetch rents by user");
 
   const result: { rentals: Array<IRental> } = await res.json();
 

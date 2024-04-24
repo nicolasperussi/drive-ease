@@ -1,11 +1,11 @@
 import React from "react";
-import { fetchVehicles } from "@/lib/utils";
 import VehicleCard from "./vehicle-card";
-
-export const BASE_VALUE = 75;
+import { prisma } from "@/lib/prisma";
 
 const Vehicles = async () => {
-  const { vehicles } = await fetchVehicles();
+  const vehicles = await prisma.car.findMany({
+    orderBy: { rental_price: "asc" },
+  });
 
   return (
     vehicles && (
