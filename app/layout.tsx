@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/header";
 import SessionProvider from "@/providers/sessionProvider";
 import RentProvider from "@/context/rent-context";
+import { Toaster } from "@/components/ui/toaster";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -29,6 +30,7 @@ export default function RootLayout({
           <RentProvider>
             <Header />
             {children}
+            <Toaster />
           </RentProvider>
         </SessionProvider>
       </body>

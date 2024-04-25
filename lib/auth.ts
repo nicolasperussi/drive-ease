@@ -17,8 +17,12 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "Username", type: "text", placeholder: "jsmith" },
-        password: { label: "Password", type: "password" },
+        email: { label: "E-mail", type: "text", placeholder: "valid@mail.com" },
+        password: {
+          label: "Senha",
+          type: "password",
+          placeholder: "sua senha",
+        },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials.password) return null;
@@ -29,7 +33,7 @@ export const authOptions: NextAuthOptions = {
 
         if (!existingUser) return null;
 
-        const passwordMatch = compare(
+        const passwordMatch = await compare(
           credentials.password,
           existingUser.password!
         );
