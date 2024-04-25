@@ -8,7 +8,7 @@ import { useRent } from "@/context/rent-context";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { dayjs } from "@/lib/dayjs";
 
 const steps: {
@@ -28,6 +28,22 @@ const Rent = ({ searchParams }: { searchParams: { step: string } }) => {
   const { car, startDate, finishDate, clearRent } = useRent();
   const router = useRouter();
   const { data: session } = useSession();
+
+  useEffect(() => {
+    const step = Number(
+      new URLSearchParams(window.location.search).get("step")
+    );
+
+    if ((step === 3 || step === 2) && (!startDate || !finishDate)) {
+      console.log("entrou 1 if");
+      handleChangeStep(1);
+    }
+
+    if (step === 3 && !car) {
+      console.log("entrou 2 if");
+      handleChangeStep(2);
+    }
+  }, []);
 
   function handleChangeStep(step: number) {
     if (step === 2 && (!startDate || !finishDate)) return;

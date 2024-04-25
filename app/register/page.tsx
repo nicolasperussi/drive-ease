@@ -72,12 +72,13 @@ const Register = () => {
         setLoading(false);
         console.log(signInData.error);
       } else {
-        router.push("/");
+        const searchParams = new URLSearchParams(window.location.search);
+        const referer = searchParams.get("referer");
+        if (referer) return router.push(`/${referer}`);
+        return router.push("/");
       }
     }
   }
-
-  // TODO: change the form and inputs to Form and Inputs components from shadcn/ui
 
   return (
     <main className="flex flex-col gap-12 items-center justify-center pt-14">

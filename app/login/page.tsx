@@ -58,6 +58,13 @@ const Login = () => {
       return router.push("/");
     }
   }
+
+  function goToRegisterPage() {
+    const searchParams = new URLSearchParams(window.location.search);
+    const referer = searchParams.get("referer");
+    if (referer) return router.push(`/register?referer=${referer}`);
+    return router.push("/register");
+  }
   return (
     <main className="flex flex-col gap-12 items-center justify-center h-[80vh]">
       <div className="space-y-2 text-center flex flex-col gap-4">
@@ -102,12 +109,12 @@ const Login = () => {
       </form>
       <div className="text-center text-sm text-gray-500">
         Não possui uma conta?&nbsp;
-        <Link
-          className="font-medium text-primary hover:underline"
-          href="/register"
+        <span
+          className="font-medium text-primary hover:underline cursor-pointer"
+          onClick={goToRegisterPage}
         >
           Crie uma conta
-        </Link>
+        </span>
       </div>
     </main>
   );
