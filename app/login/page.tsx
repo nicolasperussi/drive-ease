@@ -20,8 +20,6 @@ const loginUserFormSchema = z.object({
 });
 
 const Login = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
   const { toast } = useToast();
@@ -31,7 +29,6 @@ const Login = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<loginUserFormData>({
     mode: "onSubmit",
@@ -61,8 +58,6 @@ const Login = () => {
       return router.push("/");
     }
   }
-  // TODO: change the form and inputs to Form and Inputs components from shadcn/ui
-
   return (
     <main className="flex flex-col gap-12 items-center justify-center h-[80vh]">
       <div className="space-y-2 text-center flex flex-col gap-4">
@@ -111,7 +106,7 @@ const Login = () => {
           className="font-medium text-primary hover:underline"
           href="/register"
         >
-          Cadastrar-se
+          Crie uma conta
         </Link>
       </div>
     </main>

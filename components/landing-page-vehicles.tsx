@@ -24,7 +24,7 @@ const Vehicles = async () => {
         </div>
         <div className="grid gap-8 py-12 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
           {vehicles.map((car) => (
-            <VehicleCard car={car} />
+            <VehicleCard key={car.id} car={car} />
           ))}
         </div>
       </section>
