@@ -13,8 +13,6 @@ const BASE_URL =
     : process.env.NEXTAUTH_URL;
 
 export async function fetchVehicles(): Promise<{ vehicles: Array<ICar> }> {
-  console.log(BASE_URL);
-
   const res = await fetch("/api/vehicles", {
     method: "GET",
   });

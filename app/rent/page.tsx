@@ -10,6 +10,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { dayjs } from "@/lib/dayjs";
+import { LoaderCircle } from "lucide-react";
 
 const steps: {
   title: string;
@@ -20,12 +21,17 @@ const steps: {
   { title: "Identificação", step: 3 },
 ];
 
+// TODO: validate form
+
 const Rent = ({ searchParams }: { searchParams: { step: string } }) => {
+  const [loading, setLoading] = useState(false);
+
   const [currentStep, setCurrentStep] = useState(
     () => Number(searchParams.step) || 1
   );
 
-  const { car, startDate, finishDate, clearRent } = useRent();
+  const { car, startDate, getStartDate, finishDate, getFinishDate, clearRent } =
+    useRent();
   const router = useRouter();
   const { data: session } = useSession();
 
@@ -35,12 +41,10 @@ const Rent = ({ searchParams }: { searchParams: { step: string } }) => {
     );
 
     if ((step === 3 || step === 2) && (!startDate || !finishDate)) {
-      console.log("entrou 1 if");
       handleChangeStep(1);
     }
 
     if (step === 3 && !car) {
-      console.log("entrou 2 if");
       handleChangeStep(2);
     }
   }, []);
@@ -70,6 +74,7 @@ const Rent = ({ searchParams }: { searchParams: { step: string } }) => {
   }
 
   async function handleCreateRent() {
+    setLoading(true);
     const response = await fetch("/api/rent", {
       method: "POST",
       headers: {
@@ -78,14 +83,14 @@ const Rent = ({ searchParams }: { searchParams: { step: string } }) => {
       body: JSON.stringify({
         car,
         userEmail: session?.user?.email,
-        startDate,
-        finishDate,
+        startDate: getStartDate(),
+        finishDate: getFinishDate(),
       }),
-    });
+    }).finally(() => setLoading(false));
 
     if (response.ok) {
       router.push("/account");
-      clearRent();
+      setTimeout(clearRent, 2000);
     }
   }
 
@@ -126,25 +131,31 @@ const Rent = ({ searchParams }: { searchParams: { step: string } }) => {
               </div>
               <div className="text-xl flex flex-col gap-1">
                 <span className="font-bold">Data e hora de início: </span>
-                {dayjs(startDate).format("LLL")}
+                {dayjs(getStartDate()).format("LLL")}
               </div>
               <div className="text-xl flex flex-col gap-1">
                 <span className="font-bold">Data e hora de término: </span>
-                {dayjs(finishDate).format("LLL")}
+                {dayjs(getFinishDate()).format("LLL")}
               </div>
               <div className="text-xl flex flex-col gap-1">
                 <span className="font-bold">Valor total: </span>
                 R${" "}
                 {(
                   car?.rental_price! *
-                  (dayjs(finishDate).diff(startDate, "day") + 1)
+                  Math.ceil(
+                    dayjs(getFinishDate()).diff(getStartDate(), "day", true)
+                  )
                 ).toFixed(2)}
               </div>
               <Button
                 onClick={handleCreateRent}
                 className="hidden lg:inline-flex text-lg"
               >
-                Reservar
+                {loading ? (
+                  <LoaderCircle className="animate-spin" />
+                ) : (
+                  "Reservar"
+                )}
               </Button>
             </div>
             <div className="flex flex-1 sm:flex-col border p-8 rounded-lg items-center sm:items-start">
@@ -167,11 +178,15 @@ const Rent = ({ searchParams }: { searchParams: { step: string } }) => {
                 onClick={handleCreateRent}
                 className="hidden md:inline-flex lg:hidden w-full mt-auto text-lg"
               >
-                Reservar
+                {loading ? (
+                  <LoaderCircle className="animate-spin" />
+                ) : (
+                  "Reservar"
+                )}
               </Button>
             </div>
             <Button onClick={handleCreateRent} className="md:hidden text-lg">
-              Reservar
+              {loading ? <LoaderCircle className="animate-spin" /> : "Reservar"}
             </Button>
           </div>
         )}

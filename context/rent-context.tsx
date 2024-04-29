@@ -1,7 +1,13 @@
 "use client";
 import { ICar } from "@/types/car";
 import { dayjs } from "@/lib/dayjs";
-import { ReactNode, createContext, useContext, useState } from "react";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 interface RentContextType {
   car: ICar | null;
@@ -14,6 +20,9 @@ interface RentContextType {
   handleSetStartTime(time: string): void;
   handleSetFinishDate(date: Date | undefined): void;
   handleSetFinishTime(time: string): void;
+  getStartDate(): Date;
+  getFinishDate(): Date;
+
   clearRent(): void;
 }
 
@@ -29,6 +38,8 @@ export const RentContext = createContext<RentContextType>({
   handleSetFinishDate: (): void => {},
   handleSetFinishTime: (): void => {},
   clearRent: (): void => {},
+  getStartDate: (): Date => new Date(),
+  getFinishDate: (): Date => new Date(),
 });
 
 interface RentProviderProps {
@@ -53,28 +64,40 @@ export default function RentProvider({ children }: RentProviderProps) {
   const [finishDate, setFinishDate] = useState<Date>();
   const [finishTime, setFinishTime] = useState<string>();
 
+  useEffect(() => {
+    if (dayjs(finishDate).isSameOrBefore(startDate)) setFinishDate(undefined);
+  }, [startDate, finishDate]);
+
   function handleSetStartDate(date: Date | undefined) {
-    if (date) setStartDate(date);
+    if (date) {
+      setStartDate(date);
+      if (!startTime) setStartTime(`${dayjs().format("HH:mm")}`);
+    }
   }
 
   function handleSetStartTime(time: string) {
     setStartTime(time);
-    const [hour, minute] = time.split(":");
-    handleSetStartDate(
-      dayjs(startDate).hour(Number(hour)).minute(Number(minute)).toDate()
-    );
   }
 
   function handleSetFinishDate(date: Date | undefined) {
-    if (date) setFinishDate(date);
+    if (date) {
+      setFinishDate(date);
+      if (!finishTime) setFinishTime(`${dayjs().format("HH:mm")}`);
+    }
   }
 
   function handleSetFinishTime(time: string) {
     setFinishTime(time);
-    const [hour, minute] = time.split(":");
-    handleSetFinishDate(
-      dayjs(finishDate).hour(Number(hour)).minute(Number(minute)).toDate()
-    );
+  }
+
+  function getStartDate() {
+    const [hour, minute] = startTime!.split(":");
+    return dayjs(startDate).hour(Number(hour)).minute(Number(minute)).toDate();
+  }
+
+  function getFinishDate() {
+    const [hour, minute] = finishTime!.split(":");
+    return dayjs(finishDate).hour(Number(hour)).minute(Number(minute)).toDate();
   }
 
   function handleSetCar(car: ICar) {
@@ -98,10 +121,12 @@ export default function RentProvider({ children }: RentProviderProps) {
         startTime,
         handleSetStartDate,
         handleSetStartTime,
+        getStartDate,
         finishDate,
         finishTime,
         handleSetFinishDate,
         handleSetFinishTime,
+        getFinishDate,
         clearRent,
       }}
     >
